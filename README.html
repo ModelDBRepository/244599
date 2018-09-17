@@ -1,0 +1,61 @@
+<html>
+<p>This is the readme for the model associated with the paper:
+</p>
+<p>Lopez-Jury L, Meza RC, Brown MTC, Henny P, Canavier CC (2018)
+Morphological and biophysical determinants of the intracellular and
+extracellular waveforms in nigral dopaminergic neurons: A
+computational study. J Neurosci<br/>
+<a href="http://dx.doi.org/10.1523/JNEUROSCI.0651-18.2018">http://dx.doi.org/10.1523/JNEUROSCI.0651-18.2018</a>
+</p>
+<p>This model was contributed by L Lopez-Jury and requires NEURON which
+is freely available from <a href="https://www.neuron.yale.edu">https://www.neuron.yale.edu</a>
+</p>
+<p/>Usage<br/>
+-----<br/>
+Autolaunch from ModelDB if your browser is capable or compile the mod
+files and then run mosinit.hoc file (if you need more help please consult
+the web page:
+<p/>
+  <a href="https://senselab.med.yale.edu/ModelDB/NEURON_DwnldGuide.cshtml">https://senselab.med.yale.edu/ModelDB/NEURON_DwnldGuide.cshtml</a>
+
+<p/>Press the init &amp; run button. Several windows will appear.
+<p/><img src="./images/screenshot1.png" width="550">
+<p/><img src="./images/screenshot2.png" width="550">
+<p/>The above, if you zoom in, is similar to those in Figure 3D
+<p/><img src="./images/screenshot3.png" width="550">
+<p/>
+<p>Some notes<br/>
+about the extracellular simulations, a ShapePlot with the neuron
+morphology and two windows showing the somatic intracellular membrane
+potential (top) and the extracellular potential recorded close to the
+soma (bottom). You may zoom-in to note the waveform of the
+extracellular spike.
+</p>
+<p>--<br/>
+To check how AIS length modify the shape of the action potential use
+"L" NEURON parameter by typing: ais.L Original reconstruction length
+is 41.45 microns, try changing it to 10 or 100 microns to see the
+effect on the waveform.  From our results, the range of AIS length of
+16 dopaminergic neuron reconstructions is from 19 to 58 microns.
+</p>
+<p>--<br/>
+To better visualize the effect of the AIS length on the intracellular
+shape of action potential you may calculate the first derivative of
+membrane potential or generate a phase plane plot of the spike.  The
+effect on the extracellular waveform is clearly visible.
+</p>
+<p>--<br/>
+To change from 2-domain model to 3-domain model, open "parameters.hoc"
+file and change the sodium and delayed rectifier potassium conductance
+densities to 200 and 100 respectively. As indicated in the
+comments. This will change the conductance only in the soma section,
+dendrites keep their conductances fix.
+</p>
+<p>--<br/>
+Also, you may change the neuron 3D reconstruction by changing the
+second line in "parameters.hoc" file. We have included two different
+reconstructions: one from a mouse and the other from a rat. Both
+neuron models reproduce the extracellular waveform obtained by
+experimental recordings without changing any parameter.
+</p>
+</html>

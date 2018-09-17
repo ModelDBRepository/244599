@@ -1,0 +1,113 @@
+load_file("nrngui.hoc") 
+
+//load_file("morph_rat.hoc")
+load_file("morph_mouse.hoc")
+
+load_file("fixnseg.hoc")
+
+v_init = -62.6
+
+clamp = 0                     /* switch for voltage clamp*/
+
+tstart = 0
+tstop = 500    /*time in msec*/
+
+Dtmax = 1.0  
+Dt = 1.00
+
+dt = 5e-1 /*5e-4*/  
+
+nainit=  4.075
+vsolder=v_init
+vsold=v_init
+
+/*PARAMETERS*/
+na_cond_s = 800.0e-6 		//200 for 3-domain model
+na_cond_d = 800.0e-6 
+kdr_cond_s = 840.0e-6  		//100 for 3-domain model
+kdr_cond_d = 840.0e-6 
+ca_cond = 0.3*11.196e-6
+kca_cond = 0.2*59.0e-6  
+a_cond_s = 570.e-6     
+a_cond_d = 266e-6   
+
+
+global_ra = 100     
+forall Ra = global_ra
+global_cm = 1.0
+forall cm = global_cm
+g_celsius = 37
+celsius = g_celsius
+forall ion_style("na_ion", 2,2,0,0,0)
+access soma			/* All default references are to soma */
+
+objectvar vc
+
+proc init_cell() {
+  forsec all { 
+        {insert leak gnabar_leak = 2e-6 gkbar_leak = 3e-6}
+  }
+  forsec  somatic {
+	{insert nabalan}
+    	{insert hh3 gnabar_hh3 = na_cond_s gkhhbar_hh3 = kdr_cond_s gkabar_hh3 = a_cond_s}
+    	{insert pump}
+    	//{insert leak}
+    	{insert cabalan}
+    	{insert cachan gcalbar_cachan = ca_cond gkbar_cachan = 0.0}
+    	{insert kca gkbar_kca = kca_cond}
+  }
+
+  forsec  basal {
+  	{insert nabalan}
+  	{insert hh3 gnabar_hh3 = na_cond_d  gkhhbar_hh3 = kdr_cond_d gkabar_hh3 = a_cond_d}
+  	{insert pump}
+    	//{insert leak}       
+    	{insert cabalan}
+    	{insert cachan gcalbar_cachan = ca_cond gkbar_cachan = 0.0 }
+    	{insert kca gkbar_kca = kca_cond}
+	}
+
+  forsec excitozone {
+  	{insert nabalan}
+  	{insert hh3 gnabar_hh3 = 5*na_cond_d  gkhhbar_hh3 = 2*kdr_cond_d gkabar_hh3 = a_cond_d 
+	shift_hh3 = 3 sshift_hh3 = 0}
+	{insert pump}
+    	//{insert leak}       
+   	{insert cabalan}
+   	{insert cachan gcalbar_cachan = ca_cond gkbar_cachan = 0.0 }
+    	{insert kca gkbar_kca = kca_cond}
+  }
+
+  forsec axonal {
+  	{insert nabalan}
+  	{insert hh3 gnabar_hh3 = na_cond_d  gkhhbar_hh3 = kdr_cond_d gkabar_hh3 = a_cond_d}
+	{insert pump}
+    	//{insert leak}       
+    	{insert cabalan}
+    	{insert cachan gcalbar_cachan = ca_cond gkbar_cachan = 0.0 }
+    	{insert kca gkbar_kca = kca_cond}
+  }   
+
+  forall cm = global_cm
+  forall Ra = global_ra
+  g_celsius = 35
+}
+
+
+tot=0
+forall {tot=tot+nseg}
+print "segments before ", tot
+nseg=1
+
+
+init_cell()
+
+
+geom_nseg()
+tot=0
+forall {tot=tot+nseg}
+print "actual segment count is ", tot
+
+steps_per_ms = 40 
+dt = 0.025 
+tstop = 10 
